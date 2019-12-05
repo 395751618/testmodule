@@ -9,18 +9,18 @@ import java.util.Map;
  * @project testmodule
  * @package：com.mindertech.xxnetwork
  * @anthor xiangxia
- * @time 2019-12-04 16:21
+ * @time 2019-12-05 11:45
  * @description 描述
  */
-public class XXNetworkManager {
+public class XXHttpManager {
 
-//    private static XXNetworkManager mInstance;
+//    private static XXHttpManager mInstance;
 //
-//    public static XXNetworkManager getInstance() {
+//    public static XXHttpManager getInstance() {
 //        if (mInstance == null) {
-//            synchronized (XXNetworkManager.class) {
+//            synchronized (XXHttpManager.class) {
 //                if (mInstance == null) {
-//                    mInstance = new XXNetworkManager();
+//                    mInstance = new XXHttpManager();
 //                }
 //            }
 //        }
@@ -28,15 +28,15 @@ public class XXNetworkManager {
 //    }
 
     private static class Holder {
-        private static XXNetworkManager INSTANCE = new XXNetworkManager();
+        private static XXHttpManager INSTANCE = new XXHttpManager();
     }
 
-    private XXNetworkManager() {
+    private XXHttpManager() {
 
     }
 
-    public static XXNetworkManager getInstance() {
-        return Holder.INSTANCE;
+    public static XXHttpManager getInstance() {
+        return XXHttpManager.Holder.INSTANCE;
     }
 
     //-----------------------------
