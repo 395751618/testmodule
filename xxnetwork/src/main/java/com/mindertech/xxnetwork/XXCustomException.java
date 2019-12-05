@@ -36,36 +36,26 @@ public class XXCustomException {
     public static final int NETWORK_ERROR = 1002;
 
     /**
-     * 协议错误
+     * 连接错误
      */
-    public static final int HTTP_ERROR = 1003;
+    public static final  int CONNECT_ERROR = 1003;
 
     /**
-     * 请求网络失败原因
+     * 连接超时
      */
-    public enum XXExceptionReason {
-        /**
-         * 解析数据失败
-         */
-        PARSE_ERROR,
-        /**
-         * 网络问题
-         */
-        BAD_NETWORK,
-        /**
-         * 连接错误
-         */
-        CONNECT_ERROR,
-        /**
-         * 连接超时
-         */
-        CONNECT_TIMEOUT,
-        /**
-         * 未知错误
-         */
-        UNKNOWN_ERROR,
-    }
+    public static final int CONNECT_TIMEOUT = 1003;
 
+    /**
+     * 协议错误
+     */
+    public static final int HTTP_ERROR = 1004;
+
+    /**
+     * 组装Exception
+     *
+     * @author xiangxia
+     * @createAt 2019-12-05 17:27
+     */
     public static XXApiException handleException(Throwable e) {
         XXApiException ex;
         if (e instanceof JsonParseException
@@ -78,9 +68,13 @@ public class XXCustomException {
             //网络错误
             ex = new XXApiException(NETWORK_ERROR, e.getMessage());
             return ex;
-        } else if (e instanceof UnknownHostException || e instanceof SocketTimeoutException) {
+        } else if (e instanceof UnknownHostException) {
             //连接错误
-            ex = new XXApiException(NETWORK_ERROR, e.getMessage());
+            ex = new XXApiException(CONNECT_ERROR, e.getMessage());
+            return ex;
+        } else if (e instanceof SocketTimeoutException) {
+            //连接超时
+            ex = new XXApiException(CONNECT_TIMEOUT, e.getMessage());
             return ex;
         } else {
             //未知错误
