@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 
 import com.google.gson.JsonObject;
-import com.mindertech.xxmylibrary.TestObject;
 import com.mindertech.xxnetwork.XXHttpCallback;
 import com.mindertech.xxnetwork.XXNetworkManager;
 
@@ -25,9 +24,6 @@ public class FirstActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_first);
-
-        String string = TestObject.getString();
-        System.out.println(string);
 
         XXNetworkManager.mContext = this;
         XXNetworkManager.self(TestHttp.class).signIn("xiangxia", "123456").enqueue(new XXHttpCallback<JsonObject>() {
