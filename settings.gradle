@@ -1,2 +1,2 @@
-include ':app', ':xxmylibrary'
+include ':app', ':xxmylibrary', ':xxnetwork'
 rootProject.name='testmodule'
