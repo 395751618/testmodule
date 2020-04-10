@@ -10,6 +10,7 @@ import com.mindertech.xxnetwork.XXRxJava2HttpManager;
 import com.mindertech.xxnetwork.XXSchedulerProvider;
 
 import io.reactivex.Observable;
+import okhttp3.Interceptor;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
@@ -41,6 +42,11 @@ public class TestRxJava2Http extends XXRxJava2Http<TestRxJava2Http.XXRxJava2Http
     @Override
     protected int bindTimeout() {
         return 30000;
+    }
+
+    @Override
+    protected Interceptor[] bindInterceptor() {
+        return null;
     }
 
     /**

@@ -4,11 +4,17 @@ import android.content.Context;
 import android.util.Log;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Authenticator;
 import okhttp3.Cache;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.Route;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -45,6 +51,13 @@ public abstract class XXRxJava2Http<T> {
                 .writeTimeout(timeout * 2, TimeUnit.MILLISECONDS)
                 .retryOnConnectionFailure(true)
                 .cache(cache);
+
+        Interceptor[] otherInterceptors = this.bindInterceptor();
+        if (null != otherInterceptors) {
+            for (Interceptor otherInterceptor : otherInterceptors) {
+                okHttpBuilder.addInterceptor(otherInterceptor);
+            }
+        }
 
         retrofit = new Retrofit.Builder().client(okHttpBuilder.build())
                 .baseUrl(bindBaseUrl())
@@ -89,4 +102,15 @@ public abstract class XXRxJava2Http<T> {
      * @createAt 2019-12-04 16:18
      */
     protected abstract int bindTimeout();
+
+    /**
+     * 添加拦截器
+     *
+     * @author xiangxia
+     * @createAt 2020-04-10 14:55
+     */
+    protected abstract Interceptor[] bindInterceptor();
+
+
+
 }
