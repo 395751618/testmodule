@@ -4,12 +4,16 @@ import com.google.gson.JsonParseException;
 
 import org.json.JSONException;
 
+import java.io.IOException;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
+
+import okhttp3.ResponseBody;
+import retrofit2.HttpException;
 
 /**
  * @project testmodule
@@ -50,6 +54,11 @@ public class XXCustomException {
      */
     public static final int HTTP_ERROR = 1004;
 
+    /*
+     *  传入的数据错误
+     */
+    public static final int DATA_ERROR = 1005;
+
     /**
      * 组装Exception
      *
@@ -76,6 +85,16 @@ public class XXCustomException {
             //连接超时
             ex = new XXApiException(CONNECT_TIMEOUT, e.getMessage());
             return ex;
+        } else if (e instanceof HttpException) {
+            //传入的数据错误
+            ResponseBody body = ((HttpException) e).response().errorBody();
+            try {
+                ex = new XXApiException(DATA_ERROR, body.string());
+                return ex;
+            } catch (IOException e1) {
+                ex = new XXApiException(DATA_ERROR, e.getMessage());
+                return ex;
+            }
         } else {
             //未知错误
             ex = new XXApiException(UNKNOWN, e.getMessage());

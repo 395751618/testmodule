@@ -2,8 +2,12 @@ package com.mindertech.xxnetwork;
 
 import android.util.Log;
 
+import java.io.IOException;
+
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+import okhttp3.ResponseBody;
+import retrofit2.HttpException;
 
 /**
  * @project testmodule
@@ -25,8 +29,8 @@ public abstract class XXDefaultObserver<T> implements Observer<T> {
     }
 
     @Override
-    public void onError(Throwable e) {
-        XXApiException exception = XXCustomException.handleException(e);
+    public void onError(Throwable throwable) {
+        XXApiException exception = XXCustomException.handleException(throwable);
         onFailed(exception.getDisplayMessage());
     }
 
