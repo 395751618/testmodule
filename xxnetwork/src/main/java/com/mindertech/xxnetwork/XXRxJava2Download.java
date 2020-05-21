@@ -7,17 +7,12 @@ import java.io.File;
 import java.lang.reflect.ParameterizedType;
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Observable;
 import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.GET;
-import retrofit2.http.Streaming;
-import retrofit2.http.Url;
 
 /**
  * @project testmodule
@@ -30,7 +25,6 @@ public abstract class XXRxJava2Download<T> {
 
     private T http;
     private static Retrofit retrofit;
-    public XXDownloadListener downloadListener;
 
     public XXRxJava2Download() {
         init();
@@ -58,11 +52,6 @@ public abstract class XXRxJava2Download<T> {
             for (Interceptor otherInterceptor : otherInterceptors) {
                 okHttpBuilder.addInterceptor(otherInterceptor);
             }
-        }
-
-        XXDownloadListener listener = downloadListener();
-        if (null != listener) {
-            okHttpBuilder.addInterceptor(new XXDownloadInterceptor(listener));
         }
 
         retrofit = new Retrofit.Builder().client(okHttpBuilder.build())
@@ -116,7 +105,5 @@ public abstract class XXRxJava2Download<T> {
      * @createAt 2020-04-10 14:55
      */
     protected abstract Interceptor[] bindInterceptor();
-
-    protected abstract XXDownloadListener downloadListener();
 
 }

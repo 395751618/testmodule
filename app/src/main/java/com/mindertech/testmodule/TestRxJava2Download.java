@@ -1,28 +1,15 @@
 package com.mindertech.testmodule;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 
 import com.mindertech.xxnetwork.XXDownloadCallback;
-import com.mindertech.xxnetwork.XXDownloadInterceptor;
-import com.mindertech.xxnetwork.XXDownloadListener;
 import com.mindertech.xxnetwork.XXDownloadObserver;
+import com.mindertech.xxnetwork.XXDownloadProgressCallback;
 import com.mindertech.xxnetwork.XXNetworkUtils;
 import com.mindertech.xxnetwork.XXRxJava2Download;
 import com.mindertech.xxnetwork.XXRxJava2DownloadManager;
-import com.mindertech.xxnetwork.XXRxJava2Http;
-import com.mindertech.xxnetwork.XXRxJava2HttpManager;
 import com.mindertech.xxnetwork.XXSchedulerProvider;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.RandomAccessFile;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
@@ -64,26 +51,9 @@ public class TestRxJava2Download extends XXRxJava2Download<TestRxJava2Download.T
     @Override
     protected Interceptor[] bindInterceptor() {
         return new Interceptor[0];
-//        return new Interceptor[]{new XXDownloadInterceptor(new XXDownloadListener() {
-//            @Override
-//            public void onSaveFile(ResponseBody responseBody) {
-//
-//            }
-//        })};
     }
 
-    @Override
-    protected XXDownloadListener downloadListener() {
-        return null;
-//        return new XXDownloadListener() {
-//            @Override
-//            public void onSaveFile(ResponseBody responseBody) {
-//
-//            }
-//        };
-    }
-
-    public void downloadFile1(String url, String path, final XXDownloadCallback callback) {
+    public void downloadFile1(String url, String path, final XXDownloadProgressCallback progressCallback, final XXDownloadCallback callback) {
         http().downloadFile(url).compose(XXSchedulerProvider.<ResponseBody>io_main()).subscribe(new XXDownloadObserver<ResponseBody>() {
             @Override
             public void onStart(Disposable d) {
@@ -97,7 +67,7 @@ public class TestRxJava2Download extends XXRxJava2Download<TestRxJava2Download.T
             public void onSuccess(ResponseBody response) {
                 Log.d("xxxxxxxxxxxxonSuccess", "ResponseBody");
 
-                XXNetworkUtils.saveFile(response, url, path, callback);
+                XXNetworkUtils.saveFile(response, url, path, progressCallback, callback);
 
 //                saveFile(response, callback);
 //                if (null != callback) {

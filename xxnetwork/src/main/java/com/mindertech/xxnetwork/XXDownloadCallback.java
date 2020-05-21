@@ -16,8 +16,6 @@ public interface XXDownloadCallback {
 
     public void onStart(Disposable d);
 
-    public void onProgress(long totalByte, long currentByte, int progress);
-
     public void onFinish(File file);
 
     public void onFinish();

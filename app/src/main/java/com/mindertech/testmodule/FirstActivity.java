@@ -1,7 +1,6 @@
 package com.mindertech.testmodule;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -10,27 +9,14 @@ import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 
-import com.google.gson.JsonObject;
-import com.mindertech.xxnetwork.XXDefaultObserver;
 import com.mindertech.xxnetwork.XXDownloadCallback;
-import com.mindertech.xxnetwork.XXDownloadListener;
-import com.mindertech.xxnetwork.XXDownloadObserver;
-import com.mindertech.xxnetwork.XXHttpCallback;
-import com.mindertech.xxnetwork.XXHttpManager;
+import com.mindertech.xxnetwork.XXDownloadProgressCallback;
 import com.mindertech.xxnetwork.XXNetworkUtils;
-import com.mindertech.xxnetwork.XXRxJava2Download;
 import com.mindertech.xxnetwork.XXRxJava2DownloadManager;
-import com.mindertech.xxnetwork.XXRxJava2HttpManager;
-import com.mindertech.xxnetwork.XXSchedulerProvider;
-
-import org.json.JSONObject;
 
 import java.io.File;
-import java.net.URI;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
 
 /**
@@ -97,15 +83,10 @@ public class FirstActivity extends Activity {
 
         String url = "http://dev-cdn2.mindertech.net/2020/0218/FpeUDGc7ms9Yj9vVsAy3z2h5djq0.jpg!origin";
         XXRxJava2DownloadManager.self(TestRxJava2Download.class).downloadFile1(url,
-                path, new XXDownloadCallback() {
+                path, null, new XXDownloadCallback() {
                     @Override
                     public void onStart(Disposable d) {
                         Log.i("onStart:", "");
-                    }
-
-                    @Override
-                    public void onProgress(long totalByte, long currentByte, int progress) {
-                        Log.i("onProgress:", "");
                     }
 
                     @Override
@@ -132,14 +113,14 @@ public class FirstActivity extends Activity {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                XXNetworkUtils.saveFile(body, url, path, new XXDownloadCallback() {
-                                    @Override
-                                    public void onStart(Disposable d) {
-
-                                    }
-
+                                XXNetworkUtils.saveFile(body, url, path, new XXDownloadProgressCallback() {
                                     @Override
                                     public void onProgress(long totalByte, long currentByte, int progress) {
+
+                                    }
+                                }, new XXDownloadCallback() {
+                                    @Override
+                                    public void onStart(Disposable d) {
 
                                     }
 
@@ -185,11 +166,6 @@ public class FirstActivity extends Activity {
                     }
 
                     @Override
-                    public void onProgress(long totalByte, long currentByte, int progress) {
-                        Log.i("onProgress:", "");
-                    }
-
-                    @Override
                     public void onFinish(File file) {
                         Log.i("onFinish:", "file");
                         if (null != file) {
@@ -213,14 +189,14 @@ public class FirstActivity extends Activity {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                XXNetworkUtils.saveFile(body, url, path, new XXDownloadCallback() {
-                                    @Override
-                                    public void onStart(Disposable d) {
-
-                                    }
-
+                                XXNetworkUtils.saveFile(body, url, path, new XXDownloadProgressCallback() {
                                     @Override
                                     public void onProgress(long totalByte, long currentByte, int progress) {
+
+                                    }
+                                }, new XXDownloadCallback() {
+                                    @Override
+                                    public void onStart(Disposable d) {
 
                                     }
 

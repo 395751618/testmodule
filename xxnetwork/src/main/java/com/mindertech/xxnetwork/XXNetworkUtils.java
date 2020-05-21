@@ -43,11 +43,11 @@ public class XXNetworkUtils {
         return new String(ret);
     }
 
-    public static void saveFile(final ResponseBody responseBody, String url, final String filePath, final XXDownloadCallback callback) {
+    public static void saveFile(final ResponseBody responseBody, String url, final String filePath, final XXDownloadProgressCallback progressCallback, final XXDownloadCallback callback) {
         boolean downloadSuccss = true;
         final File tempFile = XXNetworkUtils.getTempFile(url, filePath);
         try {
-            writeFileToDisk(responseBody, tempFile.getAbsolutePath(), callback);
+            writeFileToDisk(responseBody, tempFile.getAbsolutePath(), progressCallback, callback);
         } catch (Exception e) {
             e.printStackTrace();
             downloadSuccss = false;
@@ -67,7 +67,7 @@ public class XXNetworkUtils {
     }
 
     @SuppressLint("DefaultLocale")
-    public static void writeFileToDisk(ResponseBody responseBody, String filePath, final XXDownloadCallback callback) throws IOException {
+    public static void writeFileToDisk(ResponseBody responseBody, String filePath, final XXDownloadProgressCallback progressCallback, final XXDownloadCallback callback) throws IOException {
         long totalByte = responseBody.contentLength();
         long downloadByte = 0;
         File file = new File(filePath);
@@ -86,18 +86,18 @@ public class XXNetworkUtils {
             }
             randomAccessFile.write(buffer, 0, len);
             downloadByte += len;
-            callbackProgress(tempFileLen + totalByte, tempFileLen + downloadByte, callback);
+            callbackProgress(tempFileLen + totalByte, tempFileLen + downloadByte, progressCallback);
         }
         randomAccessFile.close();
     }
 
-    public static void callbackProgress(final long totalByte, final long downloadByte, final XXDownloadCallback callback) {
+    public static void callbackProgress(final long totalByte, final long downloadByte, final XXDownloadProgressCallback progressCallback) {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @SuppressLint("DefaultLocale")
             @Override
             public void run() {
-                if (null != callback) {
-                    callback.onProgress(totalByte, downloadByte, (int) ((downloadByte * 100) / totalByte));
+                if (null != progressCallback) {
+                    progressCallback.onProgress(totalByte, downloadByte, (int) ((downloadByte * 100) / totalByte));
                 }
             }
         });

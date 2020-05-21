@@ -1,14 +1,13 @@
 package com.mindertech.xxnetwork;
 
-import okhttp3.ResponseBody;
-
 /**
  * @project testmodule
  * @package：com.mindertech.xxnetwork
  * @anthor xiangxia
- * @time 2020-05-09 16:17
+ * @time 2020-05-21 17:40
  * @description 描述
  */
-public interface XXDownloadListener {
-    public void onSaveFile(ResponseBody responseBody);
+public interface XXDownloadProgressCallback {
+
+    public void onProgress(long totalByte, long currentByte, int progress);
 }
