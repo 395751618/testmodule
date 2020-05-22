@@ -88,7 +88,7 @@ public class TestRxJava2Download extends XXRxJava2Download<TestRxJava2Download.T
             public void onFailed(String message) {
                 Log.d("xxxxxxxxxxxxonFailed", "message");
                 if (null != callback) {
-                    callback.onError(message);
+                    callback.onFailure(message);
                 }
             }
         });
@@ -116,11 +116,6 @@ public class TestRxJava2Download extends XXRxJava2Download<TestRxJava2Download.T
 
 //                XXNetworkUtils.saveFile(response, url, path, callback);
 
-//                saveFile(response, callback);
-                if (null != callback) {
-                    callback.onSuccess(response);
-                }
-
             }
 
             @Override
@@ -135,7 +130,7 @@ public class TestRxJava2Download extends XXRxJava2Download<TestRxJava2Download.T
             public void onFailed(String message) {
                 Log.d("xxxxxxxxxxxxonFailed", "message");
                 if (null != callback) {
-                    callback.onError(message);
+                    callback.onFailure(message);
                 }
             }
         });

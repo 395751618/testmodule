@@ -20,7 +20,5 @@ public interface XXDownloadCallback {
 
     public void onFinish();
 
-    public void onError(String msg);
-
-    public void onSuccess(ResponseBody body);
+    public void onFailure(String msg);
 }
