@@ -81,7 +81,7 @@ public class FirstActivity extends Activity {
 
     private void download99PlasFile() {
         String url = "http://dev-cdn2.mindertech.net/2020/0522/FnRr3mWoTBmjRaOiQxav6m2eE70p.doc?e=1590126702&token=ir9ieoSKTdB5ypBwUuviE2GvFOBortp_rhOmlTP2:6u-0kN_IA4Gv6w2NZj8upBMYUeE=";
-        XXRxJava2DownloadManager.self(FileRxJava2Download.class).downloadFile(url, "abc123.doc", new XXDownloadProgressCallback() {
+        XXRxJava2DownloadManager.self(FileRxJava2Download.class).download00PlasFile(url, "abcdef.doc", new XXDownloadProgressCallback() {
             @Override
             public void onProgress(long totalByte, long currentByte, int progress) {
                 System.out.println("totalByte:" + totalByte + " currentByte:" + currentByte + " progress:" + progress);

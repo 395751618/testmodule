@@ -2,6 +2,8 @@ package com.mindertech.xxnetwork;
 
 import android.content.Context;
 
+import java.io.File;
+
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import okhttp3.Interceptor;
@@ -44,7 +46,24 @@ public class FileRxJava2Download extends XXRxJava2Download<FileRxJava2Download.F
         return new Interceptor[0];
     }
 
-    public void downloadFile(String url, String fileName, final XXDownloadProgressCallback progressCallback, final XXDownloadCallback resultCallback) {
+    public void download00PlasFile(String url, String fileName, final XXDownloadProgressCallback progressCallback, final XXDownloadCallback resultCallback) {
+
+        File file = XXNetworkUtils.enableExist99PlasFile(fileName);
+        if (null != file) {
+            if (null != progressCallback) {
+                long size = 0;
+                try {
+                    size = XXNetworkUtils.getFileSize(file);
+                    progressCallback.onProgress(size,size,100);
+                } catch (Exception e) {
+                    progressCallback.onProgress(0,0,100);
+                }
+            }
+            if (null != resultCallback) {
+                resultCallback.onFinish(file);
+            }
+            return;
+        }
         http().downloadFile(url).compose(XXSchedulerProvider.<ResponseBody>io_main()).subscribe(new XXDownloadObserver<ResponseBody>() {
             @Override
             public void onStart(Disposable d) {

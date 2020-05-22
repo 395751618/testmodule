@@ -110,7 +110,7 @@ public class XXNetworkUtils {
      * @author xiangxia
      * @createAt 2020-05-22 15:05
      */
-    private static long getFileSize(File file) throws Exception {
+    public static long getFileSize(File file) throws Exception {
         long size = 0;
         if (file.exists()) {
             FileInputStream fis = null;
@@ -173,13 +173,16 @@ public class XXNetworkUtils {
      * @author xiangxia
      * @createAt 2020-05-22 14:53
      */
-    public static boolean enableExist99PlasFile(String fileName) {
+    public static File enableExist99PlasFile(String fileName) {
         if (null == fileName || fileName.isEmpty()) {
-            return false;
+            return null;
         }
         String path = XXRxJava2DownloadManager.mContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + "xxnetwork" + File.separator + fileName;
         File file = new File(path);
-        return file.getParentFile().exists();
+        if (file.exists()) {
+            return file;
+        }
+        return null;
     }
 
     public static void save99PlasFile(final ResponseBody responseBody, String url, final String fileName, final XXDownloadProgressCallback progressCallback, final XXDownloadCallback resultCallback) {
