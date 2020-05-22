@@ -78,7 +78,7 @@ public class FirstActivity extends Activity {
     }
 
     private void downloadFile1() {
-        String path = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + "Fq4X-aGyA-DEZtwMwDX7OOYvgZmR.jpg";
+        String path = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + "123456.jpg";
 
 
         String url = "http://dev-cdn2.mindertech.net/2020/0218/FpeUDGc7ms9Yj9vVsAy3z2h5djq0.jpg!origin";
@@ -154,7 +154,7 @@ public class FirstActivity extends Activity {
     }
 
     private void downloadFile() {
-        String path = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + "Fq4X-aGyA-DEZtwMwDX7OOYvgZmR.jpg";
+        String path = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + "123456.jpg";
 
 
         String url = "http://dev-cdn2.mindertech.net/2020/0218/FpeUDGc7ms9Yj9vVsAy3z2h5djq0.jpg!origin";

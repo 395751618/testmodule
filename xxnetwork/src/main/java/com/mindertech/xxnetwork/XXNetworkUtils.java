@@ -44,26 +44,31 @@ public class XXNetworkUtils {
     }
 
     public static void saveFile(final ResponseBody responseBody, String url, final String filePath, final XXDownloadProgressCallback progressCallback, final XXDownloadCallback callback) {
-        boolean downloadSuccss = true;
-        final File tempFile = XXNetworkUtils.getTempFile(url, filePath);
-        try {
-            writeFileToDisk(responseBody, tempFile.getAbsolutePath(), progressCallback, callback);
-        } catch (Exception e) {
-            e.printStackTrace();
-            downloadSuccss = false;
-        }
-
-        if (downloadSuccss) {
-            final boolean renameSuccess = tempFile.renameTo(new File(filePath));
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    if (null != callback && renameSuccess) {
-                        callback.onFinish(new File(filePath));
-                    }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                boolean downloadSuccss = true;
+                final File tempFile = XXNetworkUtils.getTempFile(url, filePath);
+                try {
+                    writeFileToDisk(responseBody, tempFile.getAbsolutePath(), progressCallback, callback);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    downloadSuccss = false;
                 }
-            });
-        }
+
+                if (downloadSuccss) {
+                    final boolean renameSuccess = tempFile.renameTo(new File(filePath));
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (null != callback && renameSuccess) {
+                                callback.onFinish(new File(filePath));
+                            }
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 
     @SuppressLint("DefaultLocale")
