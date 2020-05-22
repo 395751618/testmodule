@@ -9,6 +9,8 @@ import io.reactivex.disposables.Disposable;
 import okhttp3.Interceptor;
 import okhttp3.ResponseBody;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.Streaming;
 import retrofit2.http.Url;
 
@@ -46,7 +48,7 @@ public class FileRxJava2Download extends XXRxJava2Download<FileRxJava2Download.F
         return new Interceptor[0];
     }
 
-    public void download00PlasFile(String url, String fileName, final XXDownloadProgressCallback progressCallback, final XXDownloadCallback resultCallback) {
+    public void download99PlasFile(String url, String fileName, String referer, String language, final XXDownloadProgressCallback progressCallback, final XXDownloadCallback resultCallback) {
 
         File file = XXNetworkUtils.enableExist99PlasFile(fileName);
         if (null != file) {
@@ -64,7 +66,7 @@ public class FileRxJava2Download extends XXRxJava2Download<FileRxJava2Download.F
             }
             return;
         }
-        http().downloadFile(url).compose(XXSchedulerProvider.<ResponseBody>io_main()).subscribe(new XXDownloadObserver<ResponseBody>() {
+        http().downloadFile(url, referer, language).compose(XXSchedulerProvider.<ResponseBody>io_main()).subscribe(new XXDownloadObserver<ResponseBody>() {
             @Override
             public void onStart(Disposable d) {
 
@@ -95,6 +97,6 @@ public class FileRxJava2Download extends XXRxJava2Download<FileRxJava2Download.F
 
         @Streaming
         @GET
-        Observable<ResponseBody> downloadFile(@Url String url);
+        Observable<ResponseBody> downloadFile(@Url String url, @Header("Referer") String referer, @Header("Accept-Language") String language);
     }
 }
