@@ -3,6 +3,8 @@ package com.mindertech.xxnetwork;
 import android.content.Context;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
@@ -10,6 +12,7 @@ import okhttp3.Interceptor;
 import okhttp3.ResponseBody;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.HeaderMap;
 import retrofit2.http.Headers;
 import retrofit2.http.Streaming;
 import retrofit2.http.Url;
@@ -66,7 +69,12 @@ public class FileRxJava2Download extends XXRxJava2Download<FileRxJava2Download.F
             }
             return;
         }
-        http().downloadFile(url, referer, language).compose(XXSchedulerProvider.<ResponseBody>io_main()).subscribe(new XXDownloadObserver<ResponseBody>() {
+
+        Map map = new HashMap();
+        map.put("Referer", referer);
+        map.put("Accept-Language", language);
+
+        http().downloadFile(url, map).compose(XXSchedulerProvider.<ResponseBody>io_main()).subscribe(new XXDownloadObserver<ResponseBody>() {
             @Override
             public void onStart(Disposable d) {
 
@@ -97,6 +105,10 @@ public class FileRxJava2Download extends XXRxJava2Download<FileRxJava2Download.F
 
         @Streaming
         @GET
-        Observable<ResponseBody> downloadFile(@Url String url, @Header("Referer") String referer, @Header("Accept-Language") String language);
+        Observable<ResponseBody> downloadFile1(@Url String url, @Header("Referer") String referer, @Header("Accept-Language") String language);
+
+        @Streaming
+        @GET
+        Observable<ResponseBody> downloadFile(@Url String url, @HeaderMap Map<String, String> headers);
     }
 }
