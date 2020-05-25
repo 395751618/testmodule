@@ -79,7 +79,7 @@ public class XXNetworkUtils {
             e.printStackTrace();
             //获取文件大小失败!
         }
-        return FormetFileSize(blockSize);
+        return formetFileSize(blockSize);
     }
 
     /**
@@ -101,7 +101,7 @@ public class XXNetworkUtils {
             e.printStackTrace();
             //获取文件大小失败!
         }
-        return FormetFileSize(blockSize);
+        return formetFileSize(blockSize);
     }
 
     /**
@@ -148,7 +148,7 @@ public class XXNetworkUtils {
      * @author xiangxia
      * @createAt 2020-05-22 15:04
      */
-    private static String FormetFileSize(long fileS) {
+    public static String formetFileSize(long fileS) {
         DecimalFormat df = new DecimalFormat("#.00");
         String fileSizeString = "";
         String wrongSize = "0B";

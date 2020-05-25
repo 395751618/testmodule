@@ -101,6 +101,52 @@ public class FileRxJava2Download extends XXRxJava2Download<FileRxJava2Download.F
         });
     }
 
+    public void downloadFile(String url, String fileName, final XXDownloadProgressCallback progressCallback, final XXDownloadCallback resultCallback) {
+
+        File file = XXNetworkUtils.enableExist99PlasFile(fileName);
+        if (null != file) {
+            if (null != progressCallback) {
+                long size = 0;
+                try {
+                    size = XXNetworkUtils.getFileSize(file);
+                    progressCallback.onProgress(size,size,100);
+                } catch (Exception e) {
+                    progressCallback.onProgress(0,0,100);
+                }
+            }
+            if (null != resultCallback) {
+                resultCallback.onFinish(file);
+            }
+            return;
+        }
+
+        http().downloadFile(url).compose(XXSchedulerProvider.<ResponseBody>io_main()).subscribe(new XXDownloadObserver<ResponseBody>() {
+            @Override
+            public void onStart(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(ResponseBody response) {
+                XXNetworkUtils.save99PlasFile(response, url, fileName, progressCallback, resultCallback);
+            }
+
+            @Override
+            public void onFinish() {
+                if (null != resultCallback) {
+                    resultCallback.onFinish();
+                }
+            }
+
+            @Override
+            public void onFailed(String message) {
+                if (null != resultCallback) {
+                    resultCallback.onFailure(message);
+                }
+            }
+        });
+    }
+
     public interface FileRxJava2DownloadAsk {
 
         @Streaming
@@ -110,5 +156,9 @@ public class FileRxJava2Download extends XXRxJava2Download<FileRxJava2Download.F
         @Streaming
         @GET
         Observable<ResponseBody> downloadFile(@Url String url, @HeaderMap Map<String, String> headers);
+
+        @Streaming
+        @GET
+        Observable<ResponseBody> downloadFile(@Url String url);
     }
 }
