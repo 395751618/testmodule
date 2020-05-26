@@ -185,6 +185,78 @@ public class XXNetworkUtils {
         return null;
     }
 
+    /**
+     * 删除所有文件
+     *
+     * @author xiangxia
+     * @createAt 2020-05-26 14:51
+     */
+    public static boolean deleteAllFiles() {
+        String path = XXRxJava2DownloadManager.mContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + "xxnetwork";
+        File file = new File(path);
+        if (file.exists()) {
+            if (file.isFile()) {
+                return deleteSingleFile(path);
+            } else {
+                return deleteDirectory(path);
+            }
+        } else {
+            return false;
+        }
+    }
+
+    private static boolean deleteSingleFile(String filePath) {
+        File file = new File(filePath);
+        // 如果文件路径所对应的文件存在，并且是一个文件，则直接删除
+        if (file.exists() && file.isFile()) {
+            if (file.delete()) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    private static boolean deleteDirectory(String filePath) {
+        // 如果dir不以文件分隔符结尾，自动添加文件分隔符
+        if (!filePath.endsWith(File.separator))
+            filePath = filePath + File.separator;
+        File dirFile = new File(filePath);
+        // 如果dir对应的文件不存在，或者不是一个目录，则退出
+        if ((!dirFile.exists()) || (!dirFile.isDirectory())) {
+            return false;
+        }
+        boolean flag = true;
+        // 删除文件夹中的所有文件包括子目录
+        File[] files = dirFile.listFiles();
+        for (File file : files) {
+            // 删除子文件
+            if (file.isFile()) {
+                flag = deleteSingleFile(file.getAbsolutePath());
+                if (!flag)
+                    break;
+            }
+            // 删除子目录
+            else if (file.isDirectory()) {
+                flag = deleteDirectory(file
+                        .getAbsolutePath());
+                if (!flag)
+                    break;
+            }
+        }
+        if (!flag) {
+            return false;
+        }
+        // 删除当前目录
+        if (dirFile.delete()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public static void save99PlasFile(final ResponseBody responseBody, String url, final String fileName, final XXDownloadProgressCallback progressCallback, final XXDownloadCallback resultCallback) {
         new Thread(new Runnable() {
             @Override

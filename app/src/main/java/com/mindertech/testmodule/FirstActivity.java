@@ -76,7 +76,6 @@ public class FirstActivity extends Activity {
 
 //        downloadFile1();
         download99PlasFile();
-
     }
 
     private void download99PlasFile() {
