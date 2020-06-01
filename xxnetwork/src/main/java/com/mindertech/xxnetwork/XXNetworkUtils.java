@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import okhttp3.ResponseBody;
@@ -56,7 +57,10 @@ public class XXNetworkUtils {
      */
     public static File getTempFilePath(String filePath) {
         File parentFile = new File(filePath).getParentFile();
-        return new File(parentFile.getAbsolutePath(), new Date().toString() + ".temp");
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        String string = sdf.format(date);
+        return new File(parentFile.getAbsolutePath(), string + ".temp");
     }
 
     /**
@@ -68,6 +72,10 @@ public class XXNetworkUtils {
     public static String getAuto99PlasFileOrFilesSize() {
         String filePath = XXRxJava2DownloadManager.mContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + "xxnetwork";
         File file = new File(filePath);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+
         long blockSize = 0;
         try {
             if (file.isDirectory()) {

@@ -75,13 +75,14 @@ public class FirstActivity extends Activity {
         }).start();
 
 //        downloadFile1();
+//        XXNetworkUtils.getAuto99PlasFileOrFilesSize();
         download99PlasFile();
     }
 
     private void download99PlasFile() {
         String language = "zh-cn";
-        String referer = "http://dev.mindertech.net/supplier/zh-cn/listing/20200522021338";
-        String url = "http://dev-cdn2.mindertech.net/2020/0509/FhxrSPOlDPI2oB8Qm9pQJxBwCAv7.pdf?e=1590371491&token=ir9ieoSKTdB5ypBwUuviE2GvFOBortp_rhOmlTP2:RbxHKwmZUbLQgylHpN0hK87F3Qs=";
+        String referer = "http://dev.mindertech.net/supplier/zh-cn/listing/20200527080249";
+        String url = "http:\\/\\/dev-cdn2.mindertech.net\\/2020\\/0527\\/FgFc80Ivmb0Fk4-JMTNtPuZvGiQu.pdf?e=1591000127&token=KDwuEJRz59x7Hnw-XahXIBjiZYmabIU3QxZcRtJB:Ty2oVj6dDgaRezCnvUcvPlyI9Xk=";
         XXRxJava2DownloadManager.self(FileRxJava2Download.class).download99PlasFile(url, "abcdef123.pdf", referer, language, new XXDownloadProgressCallback() {
             @Override
             public void onProgress(long totalByte, long currentByte, int progress) {
