@@ -91,6 +91,33 @@ public class XXNetworkUtils {
     }
 
     /**
+     * 自动计算指定文件或指定文件夹的byte数
+     *
+     * @author xiangxia
+     * @createAt 2020-06-22 16:09
+     */
+    public static long getCacheBytes() {
+        String filePath = XXRxJava2DownloadManager.mContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + "xxnetwork";
+        File file = new File(filePath);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+
+        long blockSize = 0;
+        try {
+            if (file.isDirectory()) {
+                blockSize = getFileSizes(file);
+            } else {
+                blockSize = getFileSize(file);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            //获取文件大小失败!
+        }
+        return blockSize;
+    }
+
+    /**
      * 自动计算指定文件或指定文件夹的大小
      *
      * @author xiangxia
