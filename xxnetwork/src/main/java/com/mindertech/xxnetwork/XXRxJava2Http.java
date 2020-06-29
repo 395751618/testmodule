@@ -15,6 +15,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.Route;
+import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -58,12 +59,20 @@ public abstract class XXRxJava2Http<T> {
                 okHttpBuilder.addInterceptor(otherInterceptor);
             }
         }
-
-        retrofit = new Retrofit.Builder().client(okHttpBuilder.build())
-                .baseUrl(bindBaseUrl())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        Converter.Factory converterFactory = bindConverterFactory();
+        if (null != converterFactory) {
+            retrofit = new Retrofit.Builder().client(okHttpBuilder.build())
+                    .baseUrl(bindBaseUrl())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .addConverterFactory(converterFactory)
+                    .build();
+        } else {
+            retrofit = new Retrofit.Builder().client(okHttpBuilder.build())
+                    .baseUrl(bindBaseUrl())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+        }
 
         this.http = (T) retrofit.create(this.getTClass());
     }
@@ -111,6 +120,12 @@ public abstract class XXRxJava2Http<T> {
      */
     protected abstract Interceptor[] bindInterceptor();
 
-
+    /**
+     * 序列化工厂
+     *
+     * @author xiangxia
+     * @createAt 2020-06-29 16:50
+     */
+    protected abstract Converter.Factory bindConverterFactory();
 
 }
