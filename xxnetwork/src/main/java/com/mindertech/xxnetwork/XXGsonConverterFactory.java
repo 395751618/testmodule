@@ -1,19 +1,12 @@
 package com.mindertech.xxnetwork;
 
-import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.InstanceCreator;
-import com.google.gson.LongSerializationPolicy;
 import com.google.gson.TypeAdapter;
-import com.google.gson.TypeAdapterFactory;
-import com.google.gson.internal.Excluder;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
-import java.text.DateFormat;
-import java.util.Collections;
 
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
